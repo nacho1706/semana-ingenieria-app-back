@@ -53,4 +53,10 @@ class EquiposController extends Controller
         $equipo->delete();
         return response()->json(null, 204);
     }
+
+    public function show($id)
+    {
+        $equipo = Equipo::findOrFail($id);
+        return response()->json($equipo, 200);
+    }
 }

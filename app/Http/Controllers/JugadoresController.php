@@ -7,6 +7,7 @@ use App\Http\Requests\Jugadores\IndexJugadoresRequest;
 use App\Http\Requests\Jugadores\UpdateJugadoresRequest;
 use App\Models\Jugador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JugadoresController extends Controller
 {
@@ -19,13 +20,23 @@ class JugadoresController extends Controller
             $query->where('id_equipo', $validated['id_equipo']);
         }
 
-        if (isset($validated['goles'])) {
-            $query->where('goles', $validated['goles']);
+        if (isset($validated['goleador'])) {
+            $query->orderBy('goles', 'desc');
+        }
+
+        if (isset($validated['equipo_goleador'])) {
+            $equipoConMasGoles = DB::table('jugadores')
+                ->select('equipos.nombre as nombre_equipo', DB::raw('SUM(jugadores.goles) as total_goles'))
+                ->join('equipos', 'jugadores.id_equipo', '=', 'equipos.id')
+                ->groupBy('equipos.id', 'equipos.nombre')
+                ->orderByDesc('total_goles')
+                ->first();
         }
 
         $jugadores = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);
         return response()->json([
             'data' => $jugadores->items(),
+            'equipo_con_mas_goles' => isset($equipoConMasGoles) ? $equipoConMasGoles : null,
             'current_page' => $jugadores->currentPage(),
             'total_pages' => $jugadores->lastPage(),
             'total_registros' => $jugadores->total(),
