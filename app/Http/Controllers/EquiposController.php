@@ -22,6 +22,10 @@ class EquiposController extends Controller
             $query->where('id_grupo', $validated['grupo']);
         }
 
+        if(isset($validated['puntero'])) {
+            $query->orderBy('puntos', 'desc');
+        }
+
         $equipos = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);
 
         return response()->json([

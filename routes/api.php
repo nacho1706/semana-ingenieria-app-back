@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('partidos')->group(function () {
     Route::post('create', [PartidosController::class, 'create']);
+    Route::get('index', [PartidosController::class, 'index']);
+    Route::put('update/{id}', [PartidosController::class, 'update']);
+    Route::delete('delete/{id}', [PartidosController::class, 'delete']);
 });
 
 Route::prefix('jugadores')->group(function () {

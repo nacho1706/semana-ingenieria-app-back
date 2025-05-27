@@ -26,6 +26,7 @@ class IndexEquiposRequest extends FormRequest
             'cantidad' => 'sometimes|integer|min:1|max:100',
             'nombre' => 'sometimes|string|max:255',
             'grupo' => 'sometimes|exists:grupos,id',
+            'puntero' => 'sometimes|boolean',
         ];
     }
 }
