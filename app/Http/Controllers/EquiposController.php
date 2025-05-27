@@ -19,7 +19,7 @@ class EquiposController extends Controller
         }
 
         if (isset($validated['grupo'])) {
-            $query->where('grupo', $validated['grupo']);
+            $query->where('id_grupo', $validated['grupo']);
         }
 
         $equipos = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);
