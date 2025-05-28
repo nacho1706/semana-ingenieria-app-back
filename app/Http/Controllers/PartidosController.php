@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Partidos\CreatePartidosRequest;
 use App\Http\Requests\Partidos\IndexPartidosRequest;
+use App\Models\Grupo;
 use App\Models\Partido;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class PartidosController extends Controller
 {
@@ -20,11 +22,16 @@ class PartidosController extends Controller
         }
 
         if (isset($validated['grupo'])) {
-            $query->with(['equipos' => function ($query) use ($validated) {
-                $query->where('id_grupo', $validated['grupo']);
-            }]);
+            $query->where(function ($subQuery) use ($validated) {
+                $grupo = Grupo::where('numero', $validated['grupo'])->first();
+                if ($grupo && !empty($grupo->equipos)) {
+                    $equipos = json_decode($grupo->equipos, true);
+                    foreach ($equipos as $equipoId) {
+                        $subQuery->orWhereJsonContains('equipos', $equipoId);
+                    }
+                }
+            });
         }
-
         $partidos = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);
 
         return response()->json([

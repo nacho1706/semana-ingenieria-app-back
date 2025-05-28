@@ -26,7 +26,7 @@ class IndexPartidosRequest extends FormRequest
             'pagina' => 'sometimes|numeric|min:1',
             'fecha' => 'sometimes|date_format:Y-m-d',
             'cancha' => 'sometimes|string|max:255',
-            'grupo' => 'sometimes|exists:grupos,id',
+            'grupo' => 'sometimes|numeric',
         ];
     }
 }
