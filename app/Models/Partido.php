@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Partido extends Model
 {
     protected $table = 'partidos';
-    protected $fillable = ['equipos', 'fecha', 'cancha'];
+    protected $fillable = ['equipos', 'fecha', 'cancha', 'resultado', 'estado'];
     protected $casts = [
         'fecha' => 'datetime',
         'equipos' => 'array',

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Equipos;
+namespace App\Http\Requests\Partidos;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexEquiposRequest extends FormRequest
+class UpdatePartidosRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,12 @@ class IndexEquiposRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pagina' => 'sometimes|integer|min:1',
-            'cantidad' => 'sometimes|integer|min:1|max:100',
-            'nombre' => 'sometimes|string|max:255',
-            'grupo' => 'sometimes',
-            'puntero' => 'sometimes|boolean',
-            'id' => 'sometimes|array',
-            'id.*' => 'integer|exists:equipos,id',
+            'fecha' => 'nullable|date',
+            'cancha' => 'nullable|int',
+            'equipos' => 'nullable|array',
+            'equipos.*' => 'nullable|exists:equipos,id',
+            'resultado' => 'nullable|string',
+            'estado' => 'nullable|in:PENDIENTE,JUGADO'
         ];
     }
 }

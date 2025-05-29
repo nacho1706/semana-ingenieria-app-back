@@ -33,6 +33,10 @@ class EquiposController extends Controller
             $query->orderBy('puntos', 'desc');
         }
 
+        if(isset($validated['id'])){
+            $query->whereIn('id', $validated['id']);
+        }
+
         $equipos = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);
 
         return response()->json([

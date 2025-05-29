@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Partidos\CreatePartidosRequest;
 use App\Http\Requests\Partidos\IndexPartidosRequest;
+use App\Http\Requests\Partidos\UpdatePartidosRequest;
 use App\Models\Grupo;
 use App\Models\Partido;
 use GuzzleHttp\Promise\Create;
@@ -54,7 +55,7 @@ class PartidosController extends Controller
         ], 201);
     }
 
-    public function update(CreatePartidosRequest $request, $id)
+    public function update(UpdatePartidosRequest $request, $id)
     {
         $validated = $request->validated();
         $partido = Partido::findOrFail($id);
