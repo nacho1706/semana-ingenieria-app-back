@@ -23,10 +23,10 @@ Route::prefix('jugadores')->group(function () {
 });
 
 Route::prefix('equipos')->group(function () {
-    Route::post('create', [EquiposController::class, 'create']);
+    // Route::post('create', [EquiposController::class, 'create']);
     Route::get('index', [EquiposController::class, 'index']);
-    Route::put('update/{id}', [EquiposController::class, 'update']);
-    Route::delete('delete/{id}', [EquiposController::class, 'delete']);
+    // Route::put('update/{id}', [EquiposController::class, 'update']);
+    // Route::delete('delete/{id}', [EquiposController::class, 'delete']);
     Route::get('show/{id}', [EquiposController::class, 'show']);
     Route::get('actualizarPuntos', [EquiposController::class, 'actualizarPuntos']);
 });
@@ -34,7 +34,7 @@ Route::prefix('equipos')->group(function () {
 Route::prefix('grupos')->group(function () {
     Route::post('create', [GruposController::class, 'create']);
     Route::get('index', [GruposController::class, 'index']);
-    Route::put('update/{id}', [GruposController::class, 'update']);
-    Route::delete('delete/{id}', [GruposController::class, 'delete']);
+    // Route::put('update/{id}', [GruposController::class, 'update']);
+    // Route::delete('delete/{id}', [GruposController::class, 'delete']);
 });
 
