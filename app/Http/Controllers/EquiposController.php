@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Equipos\CreateEquiposRequest;
 use App\Http\Requests\Equipos\IndexEquiposRequest;
+use App\Jobs\ProcessMatchPoints;
 use App\Models\Equipo;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
@@ -23,17 +24,15 @@ class EquiposController extends Controller
             $id_grupo = Grupo::where('numero', $validated['grupo'])->value('id');
             if ($id_grupo) {
                 $query->where('id_grupo', $id_grupo);
-            }
-            else {
+            } else {
                 return response()->json(['message' => 'Grupo no encontrado'], 404);
             }
         }
-
-        if (isset($validated['puntero'])) {
-            $query->orderBy('puntos', 'desc');
+        if (!empty($validated['puntero']) && $validated['puntero'] == 1) {
+            $query->orderByRaw('CAST(puntos AS SIGNED) DESC');
         }
 
-        if(isset($validated['id'])){
+        if (isset($validated['id'])) {
             $query->whereIn('id', $validated['id']);
         }
 
@@ -73,5 +72,11 @@ class EquiposController extends Controller
     {
         $equipo = Equipo::findOrFail($id);
         return response()->json($equipo, 200);
+    }
+
+    public function actualizarPuntos()
+    {
+        ProcessMatchPoints::dispatch();
+        return response()->json(['message' => 'Puntos actualizados correctamente'], 200);
     }
 }

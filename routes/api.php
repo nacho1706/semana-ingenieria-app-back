@@ -28,6 +28,7 @@ Route::prefix('equipos')->group(function () {
     Route::put('update/{id}', [EquiposController::class, 'update']);
     Route::delete('delete/{id}', [EquiposController::class, 'delete']);
     Route::get('show/{id}', [EquiposController::class, 'show']);
+    Route::get('actualizarPuntos', [EquiposController::class, 'actualizarPuntos']);
 });
 
 Route::prefix('grupos')->group(function () {
