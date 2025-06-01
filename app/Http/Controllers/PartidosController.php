@@ -33,6 +33,7 @@ class PartidosController extends Controller
                 }
             });
         }
+        $query->orderBy('fecha', 'asc');
         $partidos = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);
 
         return response()->json([
