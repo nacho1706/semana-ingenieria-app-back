@@ -27,6 +27,7 @@ class IndexJugadoresRequest extends FormRequest
             'id_equipo' => 'nullable|exists:equipos,id',
             'goleador' => 'nullable|boolean',
             'equipo_goleador' => 'nullable|boolean',
+            'genero' => 'nullable|in:M,F',
         ];
     }
 }

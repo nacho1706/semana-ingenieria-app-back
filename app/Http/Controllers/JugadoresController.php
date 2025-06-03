@@ -27,10 +27,19 @@ class JugadoresController extends Controller
         if (isset($validated['equipo_goleador'])) {
             $equipoConMasGoles = DB::table('jugadores')
                 ->select('equipos.nombre as nombre_equipo', DB::raw('SUM(jugadores.goles) as total_goles'))
+                ->when(isset($validated['genero']), function ($q) use ($validated) {
+                    return $q->where('equipos.genero', $validated['genero']);
+                })
                 ->join('equipos', 'jugadores.id_equipo', '=', 'equipos.id')
                 ->groupBy('equipos.id', 'equipos.nombre')
                 ->orderByDesc('total_goles')
                 ->first();
+        }
+
+        if (isset($validated['genero'])) {
+            $query->whereHas('equipo', function ($query) use ($validated) {
+                $query->where('genero', $validated['genero']);
+            });
         }
 
         $jugadores = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);

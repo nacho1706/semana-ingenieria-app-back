@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Equipos\CreateEquiposRequest;
 use App\Http\Requests\Equipos\IndexEquiposRequest;
+use App\Http\Requests\Equipos\UpdateEquiposRequest;
 use App\Jobs\ProcessMatchPoints;
 use App\Models\Equipo;
 use App\Models\Grupo;
@@ -53,7 +54,7 @@ class EquiposController extends Controller
         return response()->json($equipo, 201);
     }
 
-    public function update(CreateEquiposRequest $request, $id)
+    public function update(UpdateEquiposRequest $request, $id)
     {
         $validated = $request->validated();
         $equipo = Equipo::findOrFail($id);

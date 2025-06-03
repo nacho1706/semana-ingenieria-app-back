@@ -4,7 +4,7 @@ namespace App\Http\Requests\Equipos;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexEquiposRequest extends FormRequest
+class UpdateEquiposRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,14 +22,17 @@ class IndexEquiposRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pagina' => 'sometimes|integer|min:1',
-            'cantidad' => 'sometimes|integer|min:1|max:100',
-            'nombre' => 'sometimes|string|max:255',
-            'grupo' => 'sometimes',
-            'puntero' => 'sometimes|boolean',
-            'id' => 'sometimes|array',
-            'id.*' => 'integer|exists:equipos,id',
             'genero' => 'sometimes|in:M,F',
+            'nombre' => 'sometimes|string|max:255',
+            'id_grupo' => 'sometimes|integer|exists:grupos,id',
+            'puntos' => 'sometimes|integer|min:0',
+            'PJ' => 'sometimes|integer|min:0',
+            'PG' => 'sometimes|integer|min:0',
+            'PE' => 'sometimes|integer|min:0',
+            'PP' => 'sometimes|integer|min:0',
+            'GF' => 'sometimes|integer|min:0',
+            'GC' => 'sometimes|integer|min:0',
+            'DG' => 'sometimes|integer|min:0',
         ];
     }
 }

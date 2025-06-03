@@ -54,6 +54,12 @@ class ProcessMatchPoints implements ShouldQueue
                 $equipo1->increment('GF', $goles1);
                 $equipo2->increment('GF', $goles2);
 
+                $equipo1->increment('GC', $goles2);
+                $equipo2->increment('GC', $goles1);
+                
+                $equipo1->increment('DG', $goles1 - $goles2);
+                $equipo2->increment('DG', $goles2 - $goles1);
+
                 $equipo1->increment('PJ');
                 $equipo2->increment('PJ');
 
