@@ -17,6 +17,6 @@ class Equipo extends Model
 
     public function grupos()
     {
-        return $this->belongsTo(Grupo::class, 'id_grupo');
+        return $this->hasMany(Grupo::class, 'id_grupo');
     }
 }

@@ -23,7 +23,7 @@ class EquiposController extends Controller
 
         if (isset($validated['grupo'])) {
             if (is_array($validated['grupo'])) {
-                $id_grupos = Grupo::whereIn('numero', $validated['grupo'])->pluck('id');
+                $id_grupos = Grupo::where('numero', $validated['grupo'])->value('id');
                 if ($id_grupos->isEmpty()) {
                     return response()->json(['message' => 'Grupos no encontrados'], 404);
                 }
@@ -31,7 +31,7 @@ class EquiposController extends Controller
             } else {
                 $id_grupo = Grupo::where('numero', $validated['grupo'])->value('id');
                 if ($id_grupo) {
-                    $query->where('id_grupo', $id_grupo);
+                     $query->whereRaw('JSON_CONTAINS(id_grupo, ?)', [json_encode($id_grupo)]);
                 } else {
                     return response()->json(['message' => 'Grupo no encontrado'], 404);
                 }
