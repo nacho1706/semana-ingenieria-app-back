@@ -70,7 +70,19 @@ class JugadoresController extends Controller
     {
         $validated = $request->validated();
         $jugador = Jugador::findOrFail($id);
-        $jugador->update($validated);
+        if (isset($validated['nombre'])) {
+            $jugador->nombre = $validated['nombre'];
+        }
+        if (isset($validated['dni'])) {
+            $jugador->dni = $validated['dni'];
+        }
+        if (isset($validated['goles'])) {
+            $jugador->goles = ($jugador->goles ?? 0) + $validated['goles'];
+        }
+        if (isset($validated['id_equipo'])) {
+            $jugador->id_equipo = $validated['id_equipo'];
+        }
+        $jugador->save();
         return response()->json($jugador, 200);
     }
 

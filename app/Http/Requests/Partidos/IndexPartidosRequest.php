@@ -24,7 +24,9 @@ class IndexPartidosRequest extends FormRequest
         return [
             'cantidad' => 'sometimes|numeric|min:1|max:100',
             'pagina' => 'sometimes|numeric|min:1',
-            'fecha' => 'sometimes|date_format:Y-m-d',
+            'fecha' => 'sometimes|date',
+            'fecha_array' => 'sometimes|array',
+            'fecha_array.*' => 'date_format:Y-m-d',
             'cancha' => 'sometimes|string|max:255',
             'grupo' => 'sometimes|numeric',
         ];

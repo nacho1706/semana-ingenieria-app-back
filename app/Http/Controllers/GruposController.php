@@ -23,7 +23,15 @@ class GruposController extends Controller
         ]);
 
         if($grupo){
-            Equipo::whereIn('id', $validated['equipos'])->update(['id_grupo' => $grupo->id]);
+            foreach($validated['equipos'] as $equipoId) {
+            $equipo = Equipo::find($equipoId);
+            if($equipo) {
+                $grupos_actuales = $equipo->id_grupo ? explode(',', $equipo->id_grupo) : [];
+                $grupos_actuales[] = $grupo->id;
+                $equipo->id_grupo = implode(',', array_unique($grupos_actuales));
+                $equipo->save();
+            }
+            }
         } else {
             return response()->json(['message' => 'Error al crear el grupo'], 500);
         }

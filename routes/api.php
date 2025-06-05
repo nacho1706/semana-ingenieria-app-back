@@ -35,6 +35,6 @@ Route::prefix('grupos')->group(function () {
     Route::post('create', [GruposController::class, 'create']);
     Route::get('index', [GruposController::class, 'index']);
     // Route::put('update/{id}', [GruposController::class, 'update']);
-    // Route::delete('delete/{id}', [GruposController::class, 'delete']);
+    Route::delete('delete/{id}', [GruposController::class, 'delete']);
 });
 

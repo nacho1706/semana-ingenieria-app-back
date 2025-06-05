@@ -22,11 +22,19 @@ class EquiposController extends Controller
         }
 
         if (isset($validated['grupo'])) {
-            $id_grupo = Grupo::where('numero', $validated['grupo'])->value('id');
-            if ($id_grupo) {
-                $query->where('id_grupo', $id_grupo);
+            if (is_array($validated['grupo'])) {
+                $id_grupos = Grupo::whereIn('numero', $validated['grupo'])->pluck('id');
+                if ($id_grupos->isEmpty()) {
+                    return response()->json(['message' => 'Grupos no encontrados'], 404);
+                }
+                $query->whereIn('id_grupo', $id_grupos);
             } else {
-                return response()->json(['message' => 'Grupo no encontrado'], 404);
+                $id_grupo = Grupo::where('numero', $validated['grupo'])->value('id');
+                if ($id_grupo) {
+                    $query->where('id_grupo', $id_grupo);
+                } else {
+                    return response()->json(['message' => 'Grupo no encontrado'], 404);
+                }
             }
         }
         if (!empty($validated['puntero']) && $validated['puntero'] == 1) {

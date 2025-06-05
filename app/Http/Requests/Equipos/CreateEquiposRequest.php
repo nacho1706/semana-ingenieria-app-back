@@ -23,7 +23,7 @@ class CreateEquiposRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:255',
-            'grupo' => 'nullable|exists:grupos,id',
+            'id_grupo.*' => 'nullable|exists:grupos,id',
         ];
     }
 }

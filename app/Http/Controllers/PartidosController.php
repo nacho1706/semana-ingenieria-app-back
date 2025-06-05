@@ -10,6 +10,7 @@ use App\Models\Partido;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class PartidosController extends Controller
 {
@@ -33,6 +34,11 @@ class PartidosController extends Controller
                 }
             });
         }
+
+        if (isset($validated['fecha_array']) && is_array($validated['fecha_array'])) {
+            $query->whereIn(DB::raw('DATE(fecha)'), $validated['fecha_array']);
+        }
+
         $query->orderBy('fecha', 'asc');
         $partidos = $query->paginate($validated['cantidad'], ['*'], 'page', $validated['pagina']);
 

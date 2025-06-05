@@ -8,6 +8,7 @@ class Equipo extends Model
 {
     protected $table = 'equipos';
     protected $fillable = ['nombre', 'id_grupo', 'puntos', 'PJ', 'PG', 'PE', 'PP', 'GF', 'GC', 'DG', 'genero'];
+    protected $casts = ['id_grupo' => 'array'];
 
     public function jugadores()
     {
