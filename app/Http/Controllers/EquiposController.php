@@ -22,19 +22,18 @@ class EquiposController extends Controller
         }
 
         if (isset($validated['grupo'])) {
-            if (is_array($validated['grupo'])) {
-                $id_grupos = Grupo::where('numero', $validated['grupo'])->value('id');
-                if ($id_grupos->isEmpty()) {
-                    return response()->json(['message' => 'Grupos no encontrados'], 404);
-                }
-                $query->whereIn('id_grupo', $id_grupos);
+            $id_grupo = Grupo::where('numero', $validated['grupo'])->value('id');
+
+            if ($id_grupo) {
+                    $query->where(function ($query) use ($id_grupo) {
+                        $query->where('id_grupo', 'LIKE', '%[' . $id_grupo . ',%') 
+                            ->orWhere('id_grupo', 'LIKE', '%,' . $id_grupo . ',%') 
+                            ->orWhere('id_grupo', 'LIKE', '%,' . $id_grupo . ']%') 
+                            ->orWhere('id_grupo', '=', '[' . $id_grupo . ']')
+                            ->orWhere('id_grupo', '=', $id_grupo);
+                    });
             } else {
-                $id_grupo = Grupo::where('numero', $validated['grupo'])->value('id');
-                if ($id_grupo) {
-                     $query->whereRaw('JSON_CONTAINS(id_grupo, ?)', [json_encode($id_grupo)]);
-                } else {
-                    return response()->json(['message' => 'Grupo no encontrado'], 404);
-                }
+                return response()->json(['message' => 'Grupo no encontrado'], 404);
             }
         }
         if (!empty($validated['puntero']) && $validated['puntero'] == 1) {
